@@ -18,7 +18,7 @@ type CartProps = {
     onClose: () => void
 }
 
-let m = [
+const m = [
     {
         id: 1,
         name: "Throwback Hip Bag",
@@ -48,7 +48,7 @@ let m = [
     }
 ]
 export default function Cart({ open, onClose }: CartProps) {
-    const [products, setProducts] = useState<Product[]>([])
+    const [setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -83,8 +83,8 @@ export default function Cart({ open, onClose }: CartProps) {
 
                 // Use mock data
                 setProducts(m)
-            } catch (err: any) {
-                setError("Unexpected error")
+            } catch (err) {
+                setError("Unexpected error" + err)
             } finally {
                 setLoading(false)
             }
@@ -118,7 +118,7 @@ export default function Cart({ open, onClose }: CartProps) {
                                     <li key={m.id} className="flex py-6">
                                         <div
                                             className="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                            <Image
+                                            <img
                                                 src={m.imageSrc}
                                                 alt={m.imageAlt}
                                                 className="size-full object-cover"

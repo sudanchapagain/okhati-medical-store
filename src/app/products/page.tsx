@@ -70,7 +70,7 @@ export default function Products() {
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {products.map((product) => (
               <div key={product.id} className="group relative">
-                <Image
+                <img
                   alt={product.imageAlt}
                   src={product.imageSrc}
                   className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"

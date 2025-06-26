@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@supabase/supabase-js';
+//import { createClient } from '@supabase/supabase-js';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export const supabase = createBrowserSupabaseClient();
