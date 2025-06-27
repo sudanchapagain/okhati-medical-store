@@ -70,18 +70,18 @@ export default function Products() {
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">Products</h1>
 
-          <div className="my-4 flex space-x-4">
+          <div className="my-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="w-full sm:w-1/1.5 rounded-lg border border-gray-300 px-2 py-3 text-gray-800 shadow-sm transition focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none"
             />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="w-full sm:w-1/3 rounded-lg border border-gray-300 px-4 py-3 text-gray-800 shadow-sm transition focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none"
             >
               <option value="">All Categories</option>
               {categories.map((category) => (
