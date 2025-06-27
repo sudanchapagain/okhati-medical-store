@@ -33,7 +33,7 @@ export default function Support() {
             Okhati in numbers
           </h2>
           <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
-            We&aposre on a mission to make quality healthcare products accessible
+            We are on a mission to make quality healthcare products accessible
             across Nepal. From essential supplies to specialized equipment,
             Okhati delivers trusted medical solutions with speed and care.
           </p>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Dialog, DialogPanel } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftStartOnRectangleIcon, Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import logo from '../../favicon.ico';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
@@ -91,7 +91,7 @@ export default function Header() {
             ) : (
               <>
                 <Link href="/profile" className="text-sm font-semibold text-gray-900">
-                  Profile
+                  <UserCircleIcon className='size-6' />
                 </Link>
                 <button onClick={() => setCartOpen(true)}>
                   <svg
@@ -113,7 +113,7 @@ export default function Header() {
                   onClick={handleLogout}
                   className="text-sm font-semibold text-gray-900 hover:underline"
                 >
-                  Log out
+                  <ArrowLeftStartOnRectangleIcon className='size-6 text-red-700' />
                 </button>
                 <Cart open={isCartOpen} onClose={() => setCartOpen(false)} />
               </>
@@ -145,6 +145,7 @@ export default function Header() {
                     <Link
                       key={item.name}
                       href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
@@ -156,12 +157,14 @@ export default function Header() {
                     <>
                       <Link
                         href="/auth/login"
+                        onClick={() => setMobileMenuOpen(false)}
                         className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                       >
                         Sign in
                       </Link>
                       <Link
                         href="/auth/signup"
+                        onClick={() => setMobileMenuOpen(false)}
                         className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                       >
                         Sign up
@@ -171,6 +174,7 @@ export default function Header() {
                     <>
                       <Link
                         href="/profile"
+                        onClick={() => setMobileMenuOpen(false)}
                         className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                       >
                         Profile

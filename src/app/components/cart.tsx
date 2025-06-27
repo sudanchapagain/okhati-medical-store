@@ -2,97 +2,61 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from 'next/image';
-
-type Product = {
-    id: number
-    name: string
-    href: string
-    price: string
-    quantity: number
-    imageSrc: string
-    imageAlt: string
-}
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 type CartProps = {
     open: boolean
     onClose: () => void
 }
 
-const m = [
-    {
-        id: 1,
-        name: "Throwback Hip Bag",
-        href: "#",
-        price: "$90.00",
-        quantity: 1,
-        imageSrc: "https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-        imageAlt: "Salmon orange bag"
-    },
-    {
-        id: 2,
-        name: "Medium Stuff Satchel",
-        href: "#",
-        price: "$32.00",
-        quantity: 1,
-        imageSrc: "https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-        imageAlt: "Blue satchel bag"
-    },
-    {
-        id: 3,
-        name: "Medium Satchel",
-        href: "#",
-        price: "$32.00",
-        quantity: 1,
-        imageSrc: "https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-        imageAlt: "Blue satchel bag"
-    }
-]
+interface Product {
+    id: string;
+    name: string;
+    href: string;
+    price: number;
+    quantity: number;
+    imageSrc: string;
+    imageAlt: string;
+}
+
 export default function Cart({ open, onClose }: CartProps) {
-    const [setProducts] = useState<Product[]>([])
+    const [products, setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    /*useEffect(() => {
-      if (!open) return
-
-      const fetchCart = async () => {
-        try {
-          setLoading(true)
-          const res = await fetch("/api/cart")
-          if (!res.ok) throw new Error("Failed to fetch cart items")
-          const data = await res.json()
-          setProducts(data.products || [])
-        } catch (err: any) {
-          setError(err.message)
-        } finally {
-          setLoading(false)
-        }
-      }
-
-      fetchCart()
-    }, [open])
-    */
     useEffect(() => {
         if (!open) return
 
-        const loadMockCart = async () => {
+        const fetchCartItems = async () => {
             setLoading(true)
             try {
-                // Simulate network delay
-                await new Promise((res) => setTimeout(res, 500))
+                const { data: cartItems, error } = await supabase
+                    .from('cart_items')
+                    .select('*, products(*)')
 
-                // Use mock data
-                setProducts(m)
-            } catch (err) {
-                setError("Unexpected error" + err)
+                if (error) {
+                    throw error
+                }
+
+                setProducts(cartItems.map(item => ({
+                    id: item.products.id,
+                    name: item.products.name,
+                    href: `/products/${item.products.id}`,
+                    price: item.products.price,
+                    quantity: item.quantity,
+                    imageSrc: item.products.image_url,
+                    imageAlt: item.products.name,
+                })))
+            } catch (err: unknown) {
+                setError((err as Error).message)
             } finally {
                 setLoading(false)
             }
         }
 
-        loadMockCart()
+        fetchCartItems()
     }, [open])
-
 
     return (
         <Dialog open={open} onClose={onClose} className="relative z-50">
@@ -110,29 +74,31 @@ export default function Cart({ open, onClose }: CartProps) {
 
                 {!loading && !error && (
                     <>
-                        {m.length === 0 ? (
+                        {products.length === 0 ? (
                             <p className="text-sm text-gray-500">Your cart is empty.</p>
                         ) : (
                             <ul className="-my-6 divide-y divide-gray-200">
-                                {m.map((m) => (
-                                    <li key={m.id} className="flex py-6">
+                                {products.map((product) => (
+                                    <li key={product.id} className="flex py-6">
                                         <div
                                             className="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                            <img
-                                                src={m.imageSrc}
-                                                alt={m.imageAlt}
+                                            <Image
+                                                src={product.imageSrc}
+                                                alt={product.imageAlt}
+                                                width={96}
+                                                height={96}
                                                 className="size-full object-cover"
                                             />
                                         </div>
                                         <div className="ml-4 flex flex-1 flex-col">
                                             <div className="flex justify-between text-base font-medium text-gray-900">
                                                 <h3>
-                                                    <a href={m.href}>{m.name}</a>
+                                                    <Link href={product.href}>{product.name}</Link>
                                                 </h3>
-                                                <p>{m.price}</p>
+                                                <p>{product.price}</p>
                                             </div>
                                             <div className="flex justify-between text-sm mt-2">
-                                                <p className="text-gray-500">Qty {m.quantity}</p>
+                                                <p className="text-gray-500">Qty {product.quantity}</p>
                                                 <button className="text-green-600 hover:text-green-500 text-sm">
                                                     Remove
                                                 </button>
@@ -151,12 +117,12 @@ export default function Cart({ open, onClose }: CartProps) {
                     </div>
                     <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div className="mt-6 text-center">
-                        <a
+                        <Link
                             href="#"
-                            className="relative isolate inline-flex cursor-default items-baseline justify-center gap-x-2 rounded-lg border border-transparent bg-(--btn-border) px-30 py3 text-base/6 font-semibold text-white bg-green-600 border-green-700 [--btn-hover-overlay:var(--color-white)]/10 before:absolute before:inset-0 before:-z-10 before:rounded-[calc(var(--radius-lg)-1px)] before:bg-(--btn-bg) before:shadow-sm after:absolute after:inset-0 after:-z-10 after:rounded-[calc(var(--radius-lg)-1px)] after:shadow-[inset_0_1px_--theme(--color-white/15%)] data-active:[--btn-icon:var(--color-green-300)] data-active:after:bg-(--btn-hover-overlay) data-disabled:opacity-50 data-disabled:before:shadow-none data-disabled:after:shadow-none data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-green-500 data-hover:[--btn-icon:var(--color-green-300)] data-hover:after:bg-(--btn-hover-overlay) *:data-[slot=icon]:-mx-0.5 *:data-[slot=icon]:my-0.5 *:data-[slot=icon]:size-5 *:data-[slot=icon]:shrink-0 *:data-[slot=icon]:self-center *:data-[slot=icon]:text-(--btn-icon) forced-colors:[--btn-icon:ButtonText] forced-colors:data-hover:[--btn-icon:ButtonText] flex items-center justify-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white"
+                            className="relative isolate cursor-default items-baseline justify-center gap-x-2 rounded-lg border px-30 py3 text-base/6 font-semibold text-white bg-green-600 border-green-700 [--btn-hover-overlay:var(--color-white)]/10 before:absolute before:inset-0 before:-z-10 before:rounded-[calc(var(--radius-lg)-1px)] before:bg-(--btn-bg) before:shadow-sm after:absolute after:inset-0 after:-z-10 after:rounded-[calc(var(--radius-lg)-1px)] after:shadow-[inset_0_1px_--theme(--color-white/15%)] data-active:[--btn-icon:var(--color-green-300)] data-active:after:bg-(--btn-hover-overlay) data-disabled:opacity-50 data-disabled:before:shadow-none data-disabled:after:shadow-none data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-green-500 data-hover:[--btn-icon:var(--color-green-300)] data-hover:after:bg-(--btn-hover-overlay) *:data-[slot=icon]:-mx-0.5 *:data-[slot=icon]:my-0.5 *:data-[slot=icon]:size-5 *:data-[slot=icon]:shrink-0 *:data-[slot=icon]:self-center *:data-[slot=icon]:text-(--btn-icon) forced-colors:[--btn-icon:ButtonText] forced-colors:data-hover:[--btn-icon:ButtonText] flex py-3"
                         >
                             Checkout
-                        </a>
+                        </Link>
                     </div>
                     <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>

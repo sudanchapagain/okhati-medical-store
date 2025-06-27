@@ -36,9 +36,11 @@ export default function CategoryProductList() {
               <div key={callout.name} className="group relative">
                 <div className="relative">
                   <div className="absolute inset-0 bg-red-500 opacity-1 mix-blend-multiply rounded-lg z-10 pointer-events-none" />
-                  <img
+                  <Image
                     alt={callout.imageAlt}
                     src={callout.imageSrc}
+                    width={500}
+                    height={500}
                     className="w-full rounded-lg bg-white object-cover group-hover:opacity-75 max-sm:h-80 sm:aspect-2/1 lg:aspect-square relative z-0 border border-gray-500/25"
                   />
                 </div>

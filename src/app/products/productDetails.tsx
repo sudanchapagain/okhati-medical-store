@@ -1,31 +1,23 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import {useKeenSlider} from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 import {ArrowUturnLeftIcon, TagIcon} from '@heroicons/react/24/outline'
-import { Link } from "react-router-dom"
 
-const product = {
-    name: 'Amoxicilin 250mg Capsules',
-    price: 'NPR 192',
-    instock: true,
-    category: 'Medicine and Supplements',
-    images: [
-        {
-            src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-            alt: 'Model wearing plain white basic tee.',
-        },
-    ],
-    description:
-        'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-    details: [
-        'Hand cut and sewn locally',
-        'Dyed with our proprietary colors',
-        'Pre-washed & pre-shrunk',
-        'Ultra-soft 100% cotton',
-    ],
+
+
+interface Product {
+    id: string;
+    name: string;
+    image_urls: string[];
+    price: number;
+    category: string;
+    stock: number;
+    description: string;
 }
 
-export default function ProductDetails() {
+export default function ProductDetails({ product }: { product: Product }) {
     const [sliderRef, slider] = useKeenSlider({
         loop: true,
         slides: {
@@ -42,17 +34,19 @@ export default function ProductDetails() {
         <div className="bg-white">
             <div className="pt-24 pb-16">
                 <div className="bg-white p-8 space-y-8 max-w-6xl mx-auto">
-                    <Link to="/products"><p className="bg-gray-500 font-bold text-gray-100 px-4 mb-4 text-sm py-2 rounded-full max-w-28"><ArrowUturnLeftIcon className="text-gray-100 h-4 w-6 mb-1 inline"/>Return</p></Link>
+                    <Link href="/products"><p className="bg-gray-500 font-bold text-gray-100 px-4 mb-4 text-sm py-2 rounded-full max-w-28"><ArrowUturnLeftIcon className="text-gray-100 h-4 w-6 mb-1 inline"/>Return</p></Link>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div className="relative">
                             <div ref={sliderRef}
                                  className="keen-slider rounded-md border border-green-100 overflow-hidden">
-                                {product.images.map((img, i) => (
+                                {product.image_urls.map((img: string, i: number) => (
                                     <div key={i}
                                          className="keen-slider__slide flex justify-center items-center bg-gray-50">
-                                        <img
-                                            src={img.src}
-                                            alt={img.alt}
+                                        <Image
+                                            src={img}
+                                            alt={product.name}
+                                            width={500}
+                                            height={500}
                                             className="max-h-[500px] w-auto object-contain"
                                         />
                                     </div>
@@ -78,7 +72,7 @@ export default function ProductDetails() {
                             <h1 className="text-3xl mb-0.5 font-bold tracking-tight text-gray-900">{product.name}</h1>
                             <p className="text-base text-gray-700"><TagIcon className="size-5 inline mr-2"/>{product.category}</p>
                             <p className="text-3xl font-bold tracking-tight text-gray-900">{product.price}</p>
-                            <p className="text-base text-gray-700 text-green-800">In stock: {product.instock ? 'Yes' : 'No'}</p>
+                            <p className="text-base text-gray-700 text-green-800">In stock: {product.stock > 0 ? 'Yes' : 'No'}</p>
 
                             <button
                                 type="button"
@@ -94,9 +88,7 @@ export default function ProductDetails() {
                     <div className="border-t border-green-200 pt-6">
                         <h2 className="text-lg font-semibold text-gray-900 mb-4">Details</h2>
                         <ul className="list-disc pl-5 space-y-2 text-sm text-gray-600">
-                            {product.details.map((detail) => (
-                                <li key={detail}>{detail}</li>
-                            ))}
+                            <li>{product.description}</li>
                         </ul>
                     </div>
                 </div>

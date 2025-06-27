@@ -6,7 +6,7 @@ export default function Contact() {
           Contact us
         </h2>
         <div className="my-8 text-center">
-          <span className="inline-flex items-center gap-x-1.5 rounded-md bg-red-400/20 px-6 py-2 text-sm/5 font-medium text-red-700 group-data-hover:bg-red-400/30 sm:text-xs/5 dark:bg-red-400/10 dark:text-red-300 dark:group-data-hover:bg-red-400/15 forced-colors:outline font-bold">
+          <span className="inline-flex items-center gap-x-1.5 rounded-md bg-red-400/20 px-6 py-2 text-sm/5 font-bold text-red-700 group-data-hover:bg-red-400/30 sm:text-xs/5 dark:bg-red-400/10 dark:text-red-300 dark:group-data-hover:bg-red-400/15 forced-colors:outline">
             The form is currently unavailable.<br />Please try again later.
           </span>
         </div>
@@ -91,7 +91,7 @@ export default function Contact() {
             disabled
             className="block w-full cursor-not-allowed rounded-md bg-green-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
           >
-            Let&aposs talk
+            Send
           </button>
         </div>
       </form>
