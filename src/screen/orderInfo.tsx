@@ -30,15 +30,15 @@ interface Order {
   orderAmount: number;
   created_at: string;
   transactionId: string;
-  isDelivered: boolean;
+  isDelivered: boolean | null;
   shippingAddress: ShippingAddress;
   userId?: string | number;
   user_id?: string | number;
 }
 
 function isBackendOrderItem(item: unknown): item is {
-  id?: string;
-  _id?: string;
+  id?: string | number;
+  _id?: string | number;
   name: string;
   quantity: number;
   price: number;
@@ -46,7 +46,7 @@ function isBackendOrderItem(item: unknown): item is {
   if (typeof item !== "object" || item === null) return false;
   const obj = item as Record<string, unknown>;
   return (
-    (typeof obj.id === "string" || typeof obj._id === "string") &&
+    ((typeof obj.id === "string" || typeof obj.id === "number") || (typeof obj._id === "string" || typeof obj._id === "number")) &&
     typeof obj.name === "string" &&
     typeof obj.quantity === "number" &&
     typeof obj.price === "number"
@@ -54,14 +54,14 @@ function isBackendOrderItem(item: unknown): item is {
 }
 
 function isBackendOrder(order: unknown): order is {
-  id?: string;
-  _id?: string;
+  id?: string | number;
+  _id?: string | number;
   order_items?: unknown[];
   orderItems?: unknown[];
   orderAmount: number;
   created_at: string;
   transactionId: string;
-  isDelivered: boolean;
+  isDelivered: boolean | null;
   shippingAddress?: ShippingAddress;
   shipping_address?: ShippingAddress;
   userId?: string | number;
@@ -70,12 +70,12 @@ function isBackendOrder(order: unknown): order is {
   if (typeof order !== "object" || order === null) return false;
   const obj = order as Record<string, unknown>;
   return (
-    (typeof obj.id === "string" || typeof obj._id === "string") &&
+    ((typeof obj.id === "string" || typeof obj.id === "number") || (typeof obj._id === "string" || typeof obj._id === "number")) &&
     (Array.isArray(obj.order_items) || Array.isArray(obj.orderItems)) &&
     typeof obj.orderAmount === "number" &&
     typeof obj.created_at === "string" &&
     typeof obj.transactionId === "string" &&
-    typeof obj.isDelivered === "boolean"
+    (typeof obj.isDelivered === "boolean" || obj.isDelivered === null)
   );
 }
 
@@ -102,7 +102,7 @@ function mapBackendOrderToOrder(order: unknown): Order | null {
     orderAmount: order.orderAmount,
     created_at: order.created_at,
     transactionId: order.transactionId,
-    isDelivered: order.isDelivered,
+    isDelivered: order.isDelivered ?? false,
     shippingAddress,
     userId: order.userId,
     user_id: order.user_id,
@@ -114,13 +114,9 @@ export default function OrderInfo() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const orderState = useSelector((state: RootState) => state.orderReducer);
-
-  const { order, getOrderByIdLoading, getOrderByIdError } = orderState as {
-    order: Order | null;
-    getOrderByIdLoading: boolean;
-    getOrderByIdError: boolean;
-  };
+  const { order, getOrderByIdLoading, getOrderByIdError } = useSelector(
+    (state: RootState) => state.orderReducer,
+  );
 
   const currentUser = useMemo(() => {
     const userString = localStorage.getItem("currentUser");

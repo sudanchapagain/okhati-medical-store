@@ -1,28 +1,28 @@
 const callouts = [
   {
-    name: "Medical Equipments",
+    name: "Medical Equipment",
     description: "Weighing machines, Thermometers, etc.",
     imageSrc:
       "https://images.unsplash.com/photo-1657028310103-f53dd49a856a?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageAlt:
       "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
-    href: "/products?category=me",
+    href: "/products?category=Medical Equipment",
   },
   {
-    name: "Medicine and Supplements",
+    name: "Medicine",
     description: "Medicinal pills, Tablets, and more.",
     imageSrc:
       "https://images.unsplash.com/photo-1618675522955-3eafc0957767?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageAlt: "Few strips of medicine tablets.",
-    href: "/products?category=ms",
+    href: "/products?category=Medicine",
   },
   {
-    name: "Personal care and Hygiene",
+    name: "Health Supplements",
     description: "Sanitary napkins, Masks, Soaps. ",
     imageSrc:
       "https://images.unsplash.com/photo-1604116395843-94f7b28a8080?q=80&w=2448&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
-    href: "/products?category=ch",
+    href: "/products?category=Health Supplements",
   },
 ];
 

@@ -267,14 +267,14 @@ export default function Header() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    <Link
+                    <a
                       key={item.name}
-                      to={item.href}
+                      href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
-                    </Link>
+                    </a>
                   ))}
                 </div>
                 <div className="py-6">
@@ -321,7 +321,10 @@ export default function Header() {
                         </Link>
                       )}
                       <button
-                        onClick={() => setCartOpen(true)}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setCartOpen(true);
+                        }}
                         className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                       >
                         Cart

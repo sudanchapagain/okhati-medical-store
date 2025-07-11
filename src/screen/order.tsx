@@ -116,7 +116,7 @@ export default function OrderScreen() {
                         #{String(order.id || "").slice(-8)}
                       </td>
                       <td className="px-6 py-4 font-semibold text-green-600">
-                        ${order.orderAmount.toFixed(2)}
+                        NPR {order.orderAmount.toFixed(2)}
                       </td>
                       <td className="px-6 py-4">
                         {new Date(order.created_at).toLocaleDateString()}
@@ -175,7 +175,7 @@ export default function OrderScreen() {
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-semibold text-green-600">
-                        ${order.orderAmount.toFixed(2)}
+                        NPR {order.orderAmount.toFixed(2)}
                       </p>
                       {order.isDelivered ? (
                         <span className="inline-flex rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-800">

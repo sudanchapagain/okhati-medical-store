@@ -260,7 +260,6 @@ export default function AddProduct() {
                     <option value="Health Supplements">
                       Health Supplements
                     </option>
-                    <option value="Personal Care">Personal Care</option>
                     <option value="Medical Equipment">Medical Equipment</option>
                   </select>
                 </div>

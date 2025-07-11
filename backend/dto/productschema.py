@@ -12,9 +12,9 @@ class ReviewSchema(BaseModel):
 
 class ProductSchema(BaseModel):
     name: str
-    image: str
+    image: Optional[str] = ""
     category: str
     description: str
     price: int
     countInStock: int
-    rating: Optional[int]
+    rating: Optional[int] = 0

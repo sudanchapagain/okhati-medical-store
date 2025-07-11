@@ -93,6 +93,7 @@ class OrderService:
         )
 
         response = {
+            "id": order_byid.id,
             "name": order_byid.name,
             "email": order_byid.email,
             "orderAmount": order_byid.orderAmount,
@@ -101,8 +102,8 @@ class OrderService:
             "user_id": order_byid.user_id,
             "created_at": order_byid.created_at,
             "updated_at": order_byid.updated_at,
-            "orderItems": orderItembyid,
-            "shippingAddress": shippingByid,
+            "orderItems": jsonable_encoder(orderItembyid),
+            "shippingAddress": jsonable_encoder(shippingByid),
         }
 
         return response

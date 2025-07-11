@@ -8,9 +8,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     proxy: mode === 'development' ? {
       '/api': {
-        target: process.env.VITE_API_BASE_URL || 'https://okhati-medical-store.onrender.com',
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:8000',
         changeOrigin: true,
-        secure: true,
+        secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
     } : undefined,

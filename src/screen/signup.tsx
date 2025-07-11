@@ -43,7 +43,7 @@ export default function SignupPage() {
     <div className="flex min-h-screen items-center justify-center">
       <main className="mx-auto w-[500px] px-5">
         {loading && <Loader />}
-        {error && <Error error="Email Address is already registered" />}
+        {error && <Error error={error} />}
         {success && <Success success="Your Registration is successful" />}
 
         <h1 className="mb-2 text-2xl font-bold">Sign up</h1>

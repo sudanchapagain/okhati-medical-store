@@ -11,7 +11,14 @@ if settings.USE_SQLITE_DB == "True":
     )
 else:
     SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    engine = create_engine(
+        SQLALCHEMY_DATABASE_URL,
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        pool_size=10,
+        max_overflow=20,
+        connect_args={"connect_timeout": 30},
+    )
 
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)

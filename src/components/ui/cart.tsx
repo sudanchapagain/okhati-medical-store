@@ -120,7 +120,10 @@ export default function Cart({ open, onClose }: CartProps) {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() =>
-                                handleQuantityChange(String(item.id), item.quantity - 1)
+                                handleQuantityChange(
+                                  String(item.id),
+                                  item.quantity - 1,
+                                )
                               }
                               className="p-1 text-gray-400 hover:text-gray-600"
                             >
@@ -133,7 +136,10 @@ export default function Cart({ open, onClose }: CartProps) {
                             </span>
                             <button
                               onClick={() =>
-                                handleQuantityChange(String(item.id), item.quantity + 1)
+                                handleQuantityChange(
+                                  String(item.id),
+                                  item.quantity + 1,
+                                )
                               }
                               disabled={item.quantity >= currentStock}
                               className={`p-1 ${item.quantity >= currentStock ? "cursor-not-allowed text-gray-300" : "text-gray-400 hover:text-gray-600"}`}
@@ -143,7 +149,9 @@ export default function Cart({ open, onClose }: CartProps) {
                           </div>
                           <div className="flex flex-col items-end gap-1">
                             <button
-                              onClick={() => handleRemoveFromCart(String(item.id))}
+                              onClick={() =>
+                                handleRemoveFromCart(String(item.id))
+                              }
                               className="text-sm text-red-600 hover:text-red-500"
                             >
                               Remove
@@ -151,7 +159,10 @@ export default function Cart({ open, onClose }: CartProps) {
                             {isOverStock && (
                               <button
                                 onClick={() =>
-                                  handleQuantityChange(String(item.id), currentStock)
+                                  handleQuantityChange(
+                                    String(item.id),
+                                    currentStock,
+                                  )
                                 }
                                 className="text-xs text-blue-600 hover:text-blue-500"
                               >
@@ -214,6 +225,8 @@ export default function Cart({ open, onClose }: CartProps) {
                   cartItems.length === 0
                 ) {
                   e.preventDefault();
+                } else {
+                  onClose();
                 }
               }}
             >

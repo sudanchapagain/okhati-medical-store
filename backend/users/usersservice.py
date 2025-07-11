@@ -1,4 +1,5 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
+from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm import Session
 
 from config.database import get_db
@@ -15,21 +16,43 @@ class UserService:
         return db.query(User).filter(User.email == email).first()
 
     def create_user(user: RegisterUser, db: Session = Depends(get_db)):
-        db_user = User(
-            name=user.name,
-            email=user.email,
-            password=Hashing.bcrypt(user.password),
-            is_staff=user.is_staff,
-            is_active=user.is_active,
-        )
+        existing_user = db.query(User).filter(User.email == user.email).first()
+        if existing_user:
+            raise HTTPException(
+                status_code=400, detail="User with this email already exists"
+            )
 
-        db.add(db_user)
-        db.commit()
+        try:
+            db_user = User(
+                name=user.name,
+                email=user.email,
+                password=Hashing.bcrypt(user.password),
+                is_staff=user.is_staff,
+                is_active=user.is_active,
+            )
 
-        db.refresh(db_user)
-        db_user.password = None
+            db.add(db_user)
+            db.commit()
+            db.refresh(db_user)
 
-        return db_user
+            db_user.password = None
+            return db_user
+
+        except IntegrityError:
+            db.rollback()
+            raise HTTPException(
+                status_code=400, detail="User with this email already exists"
+            )
+        except OperationalError as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=503, detail="Database connection error. Please try again."
+            )
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500, detail=f"An unexpected error occurred: {str(e)}"
+            )
 
     def update_user(userid: int, user: UpdateUser, db: Session):
         db_userid = db.query(User).filter(User.id == userid).first()

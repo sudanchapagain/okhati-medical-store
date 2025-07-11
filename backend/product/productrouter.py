@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
@@ -8,6 +8,11 @@ from dto.productschema import ProductSchema
 from .productservice import ProductService
 
 router = APIRouter(prefix="/product", tags=["Products"])
+
+
+@router.get("/health")
+def health_check():
+    return {"status": "healthy", "service": "product"}
 
 
 @router.get("/")

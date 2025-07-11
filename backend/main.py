@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from auth import authrouter
@@ -25,9 +25,6 @@ origins = [
     "https://okhati.vercel.app",
 ]
 
-if os.getenv("ENVIRONMENT") == "development":
-    origins = ["*"]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -36,13 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 Base.metadata.create_all(bind=engine)
-
-
-@app.get("/")
-def hello():
-    return "Hello"
 
 
 app.include_router(authrouter.router, prefix="/api")
@@ -53,9 +44,8 @@ app.include_router(orderrouter.router, prefix="/api")
 app.include_router(paymentsrouter, prefix="/api")
 app.include_router(uploadrouter, prefix="/api")
 
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     reload = os.getenv("ENVIRONMENT") == "development"
 
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=reload)
+    uvicorn.run("main:app", port=port, reload=reload)

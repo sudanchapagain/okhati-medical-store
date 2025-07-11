@@ -51,3 +51,4 @@ wheels/
 
 seed.py
 .ignore/
+.vercel

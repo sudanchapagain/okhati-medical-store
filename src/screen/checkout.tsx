@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface User {
   id: number;
@@ -119,19 +120,9 @@ export default function Checkout() {
         subtotal: Math.round(subtotal),
       };
 
-      const res = await fetch("/api/initiate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        setError("Server error: Invalid response from backend.");
-        setLoading(false);
-        return;
-      }
+      const res = await axios.post("/api/initiate", payload);
+      const data = res.data;
+
       if (!data.success) {
         console.error("Backend error:", data.error);
         throw new Error(data.error || "Payment initiation failed");

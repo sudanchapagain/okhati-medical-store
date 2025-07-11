@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Error from "@/components/ui/error";
 import Loader from "@/components/ui/loader";
 import { filterProducts } from "../redux/product.slice";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import type { RootState, AppDispatch } from "../redux/store";
 
 export default function Products() {
   const dispatch = useDispatch<AppDispatch>();
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("category") || "",
+  );
   const [sortKey] = useState("popular");
 
   const { loading, products, error } = useSelector(

@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AppDispatch } from "./store";
 import { logoutUser } from "./user.slice";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || '';
+const baseURL = import.meta.env.VITE_API_BASE_URL || "";
 if (baseURL) {
   axios.defaults.baseURL = baseURL;
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 type Props = {
   onChange: (url: string | null) => void;
@@ -19,20 +20,13 @@ export default function ImageUpload({ onChange }: Props) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const uploadRes = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
+      const uploadRes = await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      if (!uploadRes.ok) {
-        const errorData = await uploadRes.json();
-        console.error("Upload failed:", errorData);
-        setError(errorData.detail || "Upload failed");
-        onChange(null);
-        return;
-      }
-
-      const result = await uploadRes.json();
+      const result = uploadRes.data;
       console.log("Upload successful:", result);
 
       if (result.success && result.url) {
@@ -43,7 +37,11 @@ export default function ImageUpload({ onChange }: Props) {
       }
     } catch (error) {
       console.error("Upload error:", error);
-      setError("Network error occurred");
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.detail || "Upload failed");
+      } else {
+        setError("Network error occurred");
+      }
       onChange(null);
     } finally {
       setIsUploading(false);

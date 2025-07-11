@@ -64,9 +64,11 @@ export const registerNewUser = createAsyncThunk<
     const response = await axios.post("/api/users", user);
     return response.data;
   } catch (error) {
-    const err = error as AxiosError<{ message: string }>;
+    const err = error as AxiosError<{ detail: string; message?: string }>;
     return rejectWithValue(
-      err.response?.data?.message || "Registration failed",
+      err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Registration failed",
     );
   }
 });
