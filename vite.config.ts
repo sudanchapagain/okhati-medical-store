@@ -4,15 +4,16 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   server: {
-    proxy: {
+    proxy: mode === 'development' ? {
       '/api': {
-        target: 'http://127.0.0.1:8000',
+        target: process.env.VITE_API_BASE_URL || 'https://okhati-medical-store.onrender.com',
         changeOrigin: true,
+        secure: true,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
-    },
+    } : undefined,
     port: 3000,
   },
   plugins: [react(), tailwindcss()],
@@ -21,4 +22,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+}));
