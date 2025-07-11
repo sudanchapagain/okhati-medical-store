@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from config.database import get_db
 from users.usersservice import UserService
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "fallback_dev_secret")
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
 SECRET_KEY = SECRET_KEY
 ALGORITHM = "HS256"
