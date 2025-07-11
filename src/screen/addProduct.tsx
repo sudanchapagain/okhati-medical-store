@@ -41,7 +41,7 @@ export default function AddProduct() {
     }
 
     const product = {
-      id: "",
+      id: 0,
       name: name,
       image: imageurl,
       category: category,

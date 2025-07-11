@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface Product {
   name: string;
-  id: string;
+  id: number;
   price: number;
   countInStock: number;
 }
@@ -60,7 +60,7 @@ const cartSlice = createSlice({
 
     updateCartQuantity: (
       state,
-      action: PayloadAction<{ id: string; quantity: number }>,
+      action: PayloadAction<{ id: number; quantity: number }>,
     ) => {
       const { id, quantity } = action.payload;
       const item = state.cartItems.find((item) => item.id === id);
@@ -72,7 +72,7 @@ const cartSlice = createSlice({
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
-    removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
+    removeFromCart: (state, action: PayloadAction<{ id: number }>) => {
       const { id } = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== id);
 

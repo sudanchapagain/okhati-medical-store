@@ -13,7 +13,7 @@ import { getAllProducts } from "../../redux/product.slice";
 import type { RootState, AppDispatch } from "../../redux/store";
 
 interface CartItem {
-  id: string;
+  id: number;
   name: string;
   price: number;
   quantity: number;
@@ -34,17 +34,17 @@ export default function Cart({ open, onClose }: CartProps) {
   const [error] = useState<string | null>(null);
 
   const getProductCurrentStock = (productId: string): number => {
-    const currentProduct = products.find((p) => p.id === productId);
+    const currentProduct = products.find((p) => String(p.id) === productId);
     return currentProduct?.countInStock || 0;
   };
 
   const isItemOverStock = (item: CartItem): boolean => {
-    const currentStock = getProductCurrentStock(item.id);
+    const currentStock = getProductCurrentStock(String(item.id));
     return item.quantity > currentStock;
   };
 
   const getValidQuantity = (item: CartItem): number => {
-    const currentStock = getProductCurrentStock(item.id);
+    const currentStock = getProductCurrentStock(String(item.id));
     return Math.min(item.quantity, currentStock);
   };
 
@@ -60,7 +60,7 @@ export default function Cart({ open, onClose }: CartProps) {
   }, [open, dispatch, products.length]);
 
   const handleRemoveFromCart = (id: string) => {
-    dispatch(removeFromCart({ id }));
+    dispatch(removeFromCart({ id: Number(id) }));
   };
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
@@ -69,7 +69,7 @@ export default function Cart({ open, onClose }: CartProps) {
     } else {
       const currentStock = getProductCurrentStock(id);
       const validQuantity = Math.min(newQuantity, currentStock);
-      dispatch(updateCartQuantity({ id, quantity: validQuantity }));
+      dispatch(updateCartQuantity({ id: Number(id), quantity: validQuantity }));
     }
   };
 
@@ -96,7 +96,7 @@ export default function Cart({ open, onClose }: CartProps) {
             ) : (
               <ul className="-my-6 divide-y divide-gray-200">
                 {cartItems.map((item) => {
-                  const currentStock = getProductCurrentStock(item.id);
+                  const currentStock = getProductCurrentStock(String(item.id));
                   const isOverStock = isItemOverStock(item);
 
                   return (
@@ -120,7 +120,7 @@ export default function Cart({ open, onClose }: CartProps) {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity - 1)
+                                handleQuantityChange(String(item.id), item.quantity - 1)
                               }
                               className="p-1 text-gray-400 hover:text-gray-600"
                             >
@@ -133,7 +133,7 @@ export default function Cart({ open, onClose }: CartProps) {
                             </span>
                             <button
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity + 1)
+                                handleQuantityChange(String(item.id), item.quantity + 1)
                               }
                               disabled={item.quantity >= currentStock}
                               className={`p-1 ${item.quantity >= currentStock ? "cursor-not-allowed text-gray-300" : "text-gray-400 hover:text-gray-600"}`}
@@ -143,7 +143,7 @@ export default function Cart({ open, onClose }: CartProps) {
                           </div>
                           <div className="flex flex-col items-end gap-1">
                             <button
-                              onClick={() => handleRemoveFromCart(item.id)}
+                              onClick={() => handleRemoveFromCart(String(item.id))}
                               className="text-sm text-red-600 hover:text-red-500"
                             >
                               Remove
@@ -151,7 +151,7 @@ export default function Cart({ open, onClose }: CartProps) {
                             {isOverStock && (
                               <button
                                 onClick={() =>
-                                  handleQuantityChange(item.id, currentStock)
+                                  handleQuantityChange(String(item.id), currentStock)
                                 }
                                 className="text-xs text-blue-600 hover:text-blue-500"
                               >
