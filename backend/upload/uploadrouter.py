@@ -55,7 +55,7 @@ async def upload_to_supabase(
     return public_url
 
 
-@router.post("/upload")
+@router.post("/upload/")
 async def upload_file(file: UploadFile = File(...)):
     """Upload a single file to Supabase Storage."""
     try:

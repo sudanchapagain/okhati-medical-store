@@ -21,7 +21,7 @@ def getAll(db: Session = Depends(get_db), current_user=Depends(get_currentUser))
     return OrderService.getAll(db=db)
 
 
-@router.get("/orderbyuser/{userid}")
+@router.get("/orderbyuser/{userid}/")
 def orderByUser(
     userid: int, db: Session = Depends(get_db), current_user=Depends(get_currentUser)
 ):
@@ -33,7 +33,7 @@ def orderByUser(
     return OrderService.getOrderByUserId(userid=userid, db=db)
 
 
-@router.get("/orderbyid/{id}")
+@router.get("/orderbyid/{id}/")
 def orderById(
     id: int, db: Session = Depends(get_db), current_user=Depends(get_currentUser)
 ):

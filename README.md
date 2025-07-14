@@ -1,49 +1,28 @@
 # Okhati Medical Store
 
-a standard react app. see `package.json`. set `VITE_API_BASE_URL` to proxy
-backend for the react app.
+a standard react app. see `package.json`.
 
-#### issues
+## run on your system
 
-- product upload on `render.com` doesn't work.
-- transaction call back on vercel doesn't work properly.
+1. download required dependencies: `sqlite or postgres`, `nodejs`, `python`,
+   `uv`.
 
-#### Docker
+2. set environment variables.
+   - for frontend set `VITE_API_BASE_URL`.
+   - for backend set everything listed in `backend/.env.production.template`
 
-To run the application using Docker, you can use the following commands.
+3. run frontend via either `npm run dev` or `npm run build` with a server to
+   serve the built pages. run backend via simple `uv run main.py`.
 
-##### Build the Image
+## run via container
 
 ```sh
+# build the image or download the one made by github ci from github
 docker build -t okhati-medical-store .
+# run the image with port mapping
+docker run -p 80:80 okhati-medical-store
 ```
 
-##### Run the Container
-
-You can run the application using either SQLite or PostgreSQL as the database.
-
-**For SQLite:**
-
-```sh
-docker run -p 80:80 \
-  -e USE_SQLITE_DB=True \
-  -e JWT_SECRET_KEY=your-secret-key \
-  okhati-medical-store
-```
-
-**For PostgreSQL:**
-
-```sh
-docker run -p 80:80 \
-  -e USE_SQLITE_DB=False \
-  -e POSTGRES_USER=user \
-  -e POSTGRES_PASSWORD=password \
-  -e POSTGRES_SERVER=your-db-host \
-  -e POSTGRES_DB=dbname \
-  -e JWT_SECRET_KEY=your-secret-key \
-  okhati-medical-store
-```
-
-- **Frontend:** [http://localhost](http://localhost)
-- **API:** [http://localhost/api](http://localhost/api)
-- **API Docs:** [http://localhost/api/docs](http://localhost/api/docs)
+- frontend: [http://localhost](http://localhost)
+- api: [http://localhost/api](http://localhost/api)
+- api docs: [http://localhost/api/docs](http://localhost/api/docs)

@@ -10,7 +10,7 @@ from models.usermodels import User
 router = APIRouter(tags=["Authentication"])
 
 
-@router.post("/login")
+@router.post("/login/")
 def login(
     request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):

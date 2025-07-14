@@ -12,7 +12,7 @@ from payment.khalti_service import KhaltiService
 router = APIRouter()
 
 
-@router.post("/initiate")
+@router.post("/initiate/")
 def initiate_payment(payload: OrderCreatePlaceOrder, db: Session = Depends(get_db)):
     try:
         purchase_order_id = f"order_{uuid.uuid4()}"

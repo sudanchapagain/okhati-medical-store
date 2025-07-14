@@ -20,7 +20,7 @@ export default function ImageUpload({ onChange }: Props) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const uploadRes = await axios.post("/api/upload", formData, {
+      const uploadRes = await axios.post("/api/upload/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,42 +1,26 @@
+## required env vars
 
-## Application
+```env
+# if you want to use for developmet set the env var below
+ENVIRONMENT=development
 
-1. set env vars
-
-```
+# True or False
 USE_SQLITE_DB=True
+
+# if postgres then set following env vars
+POSTGRES_USER=**********
+POSTGRES_PASSWORD=******
+POSTGRES_SERVER=********
+POSTGRES_PORT=**********
+POSTGRES_DB=************
+
+SUPABASE_URL=https://xxxxxx.supabase.co
+SUPABASE_ANON_KEY=eyJhbGxxxxxxxxxxxxxxx...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGcxxxxxxxxxx...
+
+# used by payment callback urls and stuff
 BASE_URL=https://okhati.vercel.app/
 KHALTI_BASE_URL=https://dev.khalti.com/api/v2
 KHALTI_SECRET_KEY=
 JWT_SECRET_KEY=
-```
-
-1. run the application
-
-```sh
-uv run main.py
-```
-
-## Upload Setup Instructions
-
-1. Create a Supabase Project
-
-2. Get Your Credentials
-
-- Project URL
-- anon public key
-- service_role secret key
-
-3. update environment vars
-
-```env
-SUPABASE_URL=https://xxxxxx.supabase.co
-SUPABASE_ANON_KEY=eyJhbGxxxxxxxxxxxxxxx...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGcxxxxxxxxxx...
-```
-
-4. Create the Storage Bucket
-
-```sh
-cd backend && python setup_supabase.py
 ```

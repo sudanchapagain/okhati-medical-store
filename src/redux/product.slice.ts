@@ -18,7 +18,7 @@ export const getAllProducts = createAsyncThunk<
   void
 >("product/getAllProducts", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get("/api/product/recommendation");
+    const response = await axios.get("/api/product/recommendation/");
     const { recommended_products, accuracy } = response.data;
     return { recommended_products, accuracy };
   } catch (error) {
@@ -36,7 +36,7 @@ export const filterProducts = createAsyncThunk<
   "product/filterProducts",
   async ({ searchKey, sortKey, category }, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/product");
+      const response = await axios.get("/api/product/");
       let filteredProducts: Product[] = response.data;
 
       if (searchKey) {
@@ -98,7 +98,7 @@ export const addProductReview = createAsyncThunk<
       };
 
       const response = await axios.post(
-        `/api/review/create/${productid}`,
+        `/api/review/create/${productid}/`,
         data,
         { headers },
       );
@@ -121,7 +121,7 @@ export const getProductById = createAsyncThunk<Product, string>(
   "product/getProductById",
   async (productid, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/product/${productid}`);
+      const response = await axios.get(`/api/product/${productid}/`);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -136,7 +136,7 @@ export const deleteProduct = createAsyncThunk<void, string>(
   "product/deleteProduct",
   async (productid, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/api/product/${productid}`);
+      const response = await axios.delete(`/api/product/${productid}/`);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -151,7 +151,7 @@ export const addProduct = createAsyncThunk<Product, Product>(
   "product/addProduct",
   async (product, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/product", product);
+      const response = await axios.post("/api/product/", product);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -170,7 +170,7 @@ export const updateProduct = createAsyncThunk<
   async ({ productid, updatedproduct }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `/api/product/${productid}`,
+        `/api/product/${productid}/`,
         updatedproduct,
       );
       return response.data;

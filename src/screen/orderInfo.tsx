@@ -46,7 +46,10 @@ function isBackendOrderItem(item: unknown): item is {
   if (typeof item !== "object" || item === null) return false;
   const obj = item as Record<string, unknown>;
   return (
-    ((typeof obj.id === "string" || typeof obj.id === "number") || (typeof obj._id === "string" || typeof obj._id === "number")) &&
+    (typeof obj.id === "string" ||
+      typeof obj.id === "number" ||
+      typeof obj._id === "string" ||
+      typeof obj._id === "number") &&
     typeof obj.name === "string" &&
     typeof obj.quantity === "number" &&
     typeof obj.price === "number"
@@ -70,7 +73,10 @@ function isBackendOrder(order: unknown): order is {
   if (typeof order !== "object" || order === null) return false;
   const obj = order as Record<string, unknown>;
   return (
-    ((typeof obj.id === "string" || typeof obj.id === "number") || (typeof obj._id === "string" || typeof obj._id === "number")) &&
+    (typeof obj.id === "string" ||
+      typeof obj.id === "number" ||
+      typeof obj._id === "string" ||
+      typeof obj._id === "number") &&
     (Array.isArray(obj.order_items) || Array.isArray(obj.orderItems)) &&
     typeof obj.orderAmount === "number" &&
     typeof obj.created_at === "string" &&

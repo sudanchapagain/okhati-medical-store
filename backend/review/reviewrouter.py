@@ -16,7 +16,7 @@ def getAllReview(db: Session = Depends(get_db)):
     return ReviewService.get_all(db=db)
 
 
-@router.post("/create/{productid}")
+@router.post("/create/{productid}/")
 def createReview(
     productid: int,
     request: ReviewCreate,

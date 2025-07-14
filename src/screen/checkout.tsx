@@ -120,7 +120,7 @@ export default function Checkout() {
         subtotal: Math.round(subtotal),
       };
 
-      const res = await axios.post("/api/initiate", payload);
+      const res = await axios.post("/api/initiate/", payload);
       const data = res.data;
 
       if (!data.success) {

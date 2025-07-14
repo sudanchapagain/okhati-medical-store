@@ -61,7 +61,7 @@ export const registerNewUser = createAsyncThunk<
   { rejectValue: string }
 >("user/registerNewUser", async (user, { rejectWithValue }) => {
   try {
-    const response = await axios.post("/api/users", user);
+    const response = await axios.post("/api/users/", user);
     return response.data;
   } catch (error) {
     const err = error as AxiosError<{ detail: string; message?: string }>;
@@ -85,7 +85,7 @@ export const loginUser = createAsyncThunk<
 
     console.log("Posting to", axios.defaults.baseURL + "/api/login");
 
-    const response = await axios.post("/api/login", formData, {
+    const response = await axios.post("/api/login/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -121,7 +121,7 @@ export const updateUser = createAsyncThunk<
   { rejectValue: string }
 >("user/updateUser", async ({ userid, updateUser }, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`/api/users/${userid}`, updateUser);
+    const response = await axios.put(`/api/users/${userid}/`, updateUser);
     return response.data;
   } catch (error) {
     const err = error as AxiosError<{ message: string }>;
@@ -135,7 +135,7 @@ export const getAllUsers = createAsyncThunk<
   { rejectValue: string }
 >("user/getAllUsers", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get("/api/users");
+    const response = await axios.get("/api/users/");
     return response.data;
   } catch (error) {
     const err = error as AxiosError<{ message: string }>;
@@ -149,7 +149,7 @@ export const deleteUser = createAsyncThunk<
   { rejectValue: string }
 >("user/deleteUser", async (userid, { rejectWithValue }) => {
   try {
-    await axios.delete(`/api/users/${userid}`);
+    await axios.delete(`/api/users/${userid}/`);
   } catch (error) {
     const err = error as AxiosError<{ message: string }>;
     return rejectWithValue(err.response?.data?.message || "Delete failed");

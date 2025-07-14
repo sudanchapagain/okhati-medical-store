@@ -20,7 +20,7 @@ from users import usersrouter
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
+    "http://localhost:80" "http://localhost:3000",
     "http://localhost:5173",
     "https://okhati.vercel.app",
 ]

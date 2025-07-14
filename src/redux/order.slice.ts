@@ -40,7 +40,7 @@ export const placeOrder = createAsyncThunk<Order, OrderData>(
         Authorization: "Bearer " + currentUser.jwtToken,
       };
 
-      const response = await axios.post("/api/order", orderData, { headers });
+      const response = await axios.post("/api/order/", orderData, { headers });
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -68,7 +68,7 @@ export const getOrdersByUserId = createAsyncThunk<Order[], string>(
         Authorization: "Bearer " + currentUser.jwtToken,
       };
 
-      const response = await axios.get(`/api/order/orderbyuser/${userId}`, {
+      const response = await axios.get(`/api/order/orderbyuser/${userId}/`, {
         headers,
       });
       return response.data;
@@ -100,7 +100,7 @@ export const getOrderById = createAsyncThunk<Order, string>(
         Authorization: "Bearer " + currentUser.jwtToken,
       };
 
-      const response = await axios.get(`/api/order/orderbyid/${orderId}`, {
+      const response = await axios.get(`/api/order/orderbyid/${orderId}/`, {
         headers,
       });
       return response.data;
