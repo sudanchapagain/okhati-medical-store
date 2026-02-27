@@ -1,4 +1,4 @@
-rootProject.name = "okhati"
+rootProject.name = "Okhati"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
