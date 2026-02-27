@@ -1,28 +1,59 @@
-# Okhati Medical Store
+This is a Kotlin Multiplatform project targeting Android, Desktop (JVM), Server.
 
-a standard react app. see `package.json`.
+* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
+  It contains several subfolders:
+  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
+  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
+    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
+    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
+    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
+    folder is the appropriate location.
 
-## run on your system
+* [/server](./server/src/main/kotlin) is for the Ktor server application.
 
-1. download required dependencies: `sqlite or postgres`, `nodejs`, `python`,
-   `uv`.
+* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
+  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
+  can add code to the platform-specific folders here too.
 
-2. set environment variables.
-   - for frontend set `VITE_API_BASE_URL`.
-   - for backend set everything listed in `backend/.env.production.template`
+### Build and Run Android Application
 
-3. run frontend via either `npm run dev` or `npm run build` with a server to
-   serve the built pages. run backend via simple `uv run main.py`.
+To build and run the development version of the Android app, use the run configuration from the run widget
+in your IDE’s toolbar or build it directly from the terminal:
+- on macOS/Linux
+  ```shell
+  ./gradlew :composeApp:assembleDebug
+  ```
+- on Windows
+  ```shell
+  .\gradlew.bat :composeApp:assembleDebug
+  ```
 
-## run via container
+### Build and Run Desktop (JVM) Application
 
-```sh
-# build the image or download the one made by github ci from github
-docker build -t okhati-medical-store .
-# run the image with port mapping
-docker run -p 80:80 okhati-medical-store
-```
+To build and run the development version of the desktop app, use the run configuration from the run widget
+in your IDE’s toolbar or run it directly from the terminal:
+- on macOS/Linux
+  ```shell
+  ./gradlew :composeApp:run
+  ```
+- on Windows
+  ```shell
+  .\gradlew.bat :composeApp:run
+  ```
 
-- frontend: [http://localhost](http://localhost)
-- api: [http://localhost/api](http://localhost/api)
-- api docs: [http://localhost/api/docs](http://localhost/api/docs)
+### Build and Run Server
+
+To build and run the development version of the server, use the run configuration from the run widget
+in your IDE’s toolbar or run it directly from the terminal:
+- on macOS/Linux
+  ```shell
+  ./gradlew :server:run
+  ```
+- on Windows
+  ```shell
+  .\gradlew.bat :server:run
+  ```
+
+---
+
+Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
