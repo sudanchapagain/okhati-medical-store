@@ -1,3 +1,4 @@
 *.png
 *.webp
-flake.lock
+*.woff2
+*.ico
